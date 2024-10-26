@@ -1,4 +1,3 @@
-// SidebarItem.tsx
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -13,13 +12,13 @@ interface SidebarItemProps {
 
 const SidebarItem: React.FC<SidebarItemProps> = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation(); // Lấy đường dẫn hiện tại
+  const location = useLocation();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const isActive = location.pathname === item.to; // Kiểm tra nếu mục đang active
+  const isActive = location.pathname === item.to;
 
   return (
     <div>
