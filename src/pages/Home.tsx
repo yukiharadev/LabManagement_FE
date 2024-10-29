@@ -1,7 +1,11 @@
 const HomePage = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className="bg-gray-100">
+      <img
+        className="h-auto max-w-full "
+        src="https://placehold.co/1920x1080"
+        alt="image description"
+      />
     </div>
   );
 };

@@ -1,5 +1,8 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi";
+import { useDispatch } from "react-redux";
+import { setSidebarTitle } from "../../features/Slidebar/SidebarSlice.tsx";
 
 interface SidebarItemProps {
   item: {
@@ -13,6 +16,7 @@ interface SidebarItemProps {
 const SidebarItem: React.FC<SidebarItemProps> = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -20,31 +24,37 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ item }) => {
 
   const isActive = location.pathname === item.to;
 
+  useEffect(() => {
+    if (isActive) {
+      dispatch(setSidebarTitle(item.title));
+    }
+  }, [isActive, dispatch, item.title]);
+
   return (
     <div>
-      <div
-        className={`flex items-center p-2 rounded-lg cursor-pointer ${
+      <Link
+        to={item.to! || "#"}
+        className={`flex items-center p-2 ${isActive ? "bg-gray-200" : "bg-white"} rounded-lg cursor-pointer ${
           item.subMenu ? "justify-between" : "justify-start"
         } hover:bg-gray-100`}
         onClick={item.subMenu ? handleToggle : undefined}
       >
         {item.icon && (
-          <item.icon
-            className={`w-6 h-6 ${isActive ? "text-blue-600" : "text-gray-500"}`}
-          />
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-500 dark:bg-cyan-800 dark:text-cyan-200">
+            <item.icon className="h-5 w-5" />
+          </div>
         )}
-        <Link
-          to={item.to!}
-          className={`ml-3 ${
-            isActive ? "text-blue-700" : "text-gray-500"
-          } hover:text-blue-600`}
+        <span
+          className={`ml-3 ${isActive ? "text-cyan-500" : "text-gray-500"} hover:text-cyan-500`}
         >
           {item.title}
-        </Link>
+        </span>
         {item.subMenu && (
-          <span className="ml-auto text-gray-500">{isOpen ? "▲" : "▼"}</span>
+          <span className="ml-auto text-gray-500">
+            {isOpen ? <HiChevronUp /> : <HiChevronDown />}
+          </span>
         )}
-      </div>
+      </Link>
       {isOpen && item.subMenu && (
         <div className="ml-4">
           {item.subMenu.map((subItem, index) => (

@@ -7,7 +7,11 @@ const NotificationDropdown = () => {
       label={
         <div className="relative mr-4">
           <HiBell size={20} className=" hover:text-blue-500" />
-          {}
+          {
+            <span className="absolute top-0 right-0 -mt-1 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full px-1">
+              1
+            </span>
+          }
         </div>
       }
       arrowIcon={false}

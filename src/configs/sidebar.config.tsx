@@ -1,35 +1,43 @@
-import { HiInbox, HiShoppingBag, HiUser, HiChartPie } from "react-icons/hi";
+import { HiUser, HiHome, HiDesktopComputer, HiServer } from "react-icons/hi";
 
 const SidebarConfig = [
   {
-    title: "Dashboard",
-    icon: HiChartPie,
+    title: "Trang chủ",
+    icon: HiHome,
     to: "/",
   },
   {
-    title: "Devices",
-    icon: HiInbox,
+    title: "Thiết bị",
+    icon: HiDesktopComputer,
     to: "/devices",
+  },
+  {
+    title: "Dịch vụ",
+    icon: HiServer,
     subMenu: [
-      { title: "All Devices", to: "/devices/all" },
       {
-        title: "Add Device",
-        subMenu: [
-          { title: "Device Type", to: "/devices/add/type" },
-          { title: "Device Details", to: "/devices/add/details" },
-        ],
+        title: "Đặt thiết bị",
+        to: "/services/order-device",
+      },
+      {
+        title: "Đặt phòng Lab",
+        to: "/services/order-lab",
+      },
+      {
+        title: "Lich sử",
+        to: "/services/history",
       },
     ],
   },
   {
-    title: "Users",
+    title: "Quản Lý Người dùng",
     icon: HiUser,
     to: "/users",
   },
   {
-    title: "Products",
-    icon: HiShoppingBag,
-    to: "/products",
+    title: "Quản Lý Phòng Lab",
+    icon: HiServer,
+    to: "/lab",
   },
 ];
 export default SidebarConfig;

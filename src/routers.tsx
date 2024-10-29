@@ -1,11 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import HomePage from "./pages/Home.tsx";
-import UserPage from "./pages/UserPage.tsx";
-import AuthLayout from "./layouts/auth/AuthLayout.tsx";
-import DashboardLayout from "./layouts/dashboard/DashboardLayout.tsx";
-import Login from "./pages/Auth/Login.tsx";
-import Register from "./pages/Auth/Register.tsx";
+import {
+  HomePage,
+  UserPage,
+  DevicesPage,
+  NotFoundPage,
+  Login,
+  Register,
+} from "./pages/page.tsx";
+import { AuthLayout, DashboardLayout } from "./layouts/layout.tsx";
+import OrderRoom from "./pages/Services/OrderRoom.tsx";
+import OrderDevice from "./pages/Services/OrderDevice.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,10 +36,35 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: "devices",
+        element: <DevicesPage />,
+      },
+      {
+        path: "lab",
+        element: <div>Lab Server</div>,
+      },
+      {
         path: "users",
         element: <UserPage />,
       },
+      {
+        path: "services",
+        children: [
+          {
+            path: "order-device",
+            element: <OrderDevice />,
+          },
+          {
+            path: "order-lab",
+            element: <OrderRoom />,
+          },
+        ],
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 
