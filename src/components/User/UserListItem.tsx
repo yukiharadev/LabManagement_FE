@@ -26,7 +26,7 @@ const UserListItem = () => {
         </div>
       </td>
       <td className=" py-4">
-        <div className="flex ">
+        <div className="flex justify-center ">
           <EditUserDrawer />
           <DeleteUserModel />
         </div>

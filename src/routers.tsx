@@ -7,10 +7,14 @@ import {
   NotFoundPage,
   Login,
   Register,
+  OrderDevice,
+  OrderRoom,
+  LabPage,
+  StatisticsPage,
 } from "./pages/page.tsx";
 import { AuthLayout, DashboardLayout } from "./layouts/layout.tsx";
-import OrderRoom from "./pages/Services/OrderRoom.tsx";
-import OrderDevice from "./pages/Services/OrderDevice.tsx";
+
+import DemoOrderTeacher from "./pages/Services/DemoOrderTeacher.tsx";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: "lab",
-        element: <div>Lab Server</div>,
+        element: <LabPage />,
       },
       {
         path: "users",
@@ -58,7 +62,15 @@ const router = createBrowserRouter([
             path: "order-lab",
             element: <OrderRoom />,
           },
+          {
+            path: "demo-teacher-devices",
+            element: <DemoOrderTeacher />,
+          },
         ],
+      },
+      {
+        path: "statistics",
+        element: <StatisticsPage />,
       },
     ],
   },

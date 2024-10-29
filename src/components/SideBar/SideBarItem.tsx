@@ -34,7 +34,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ item }) => {
     <div>
       <Link
         to={item.to! || "#"}
-        className={`flex items-center p-2 ${isActive ? "bg-gray-200" : "bg-white"} rounded-lg cursor-pointer ${
+        className={`flex items-center p-2 ${isActive ? "bg-gray-200" : "bg-white"} my-1 rounded-lg cursor-pointer ${
           item.subMenu ? "justify-between" : "justify-start"
         } hover:bg-gray-100`}
         onClick={item.subMenu ? handleToggle : undefined}

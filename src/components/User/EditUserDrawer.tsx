@@ -1,4 +1,11 @@
-import { Button, Datepicker, Drawer, Label, TextInput } from "flowbite-react";
+import {
+  Button,
+  Datepicker,
+  Drawer,
+  Label,
+  Select,
+  TextInput,
+} from "flowbite-react";
 import React, { useState } from "react";
 import { HiDownload, HiCog, HiMail } from "react-icons/hi";
 
@@ -75,6 +82,13 @@ const EditUserDrawer = () => {
               <div className="mx-2 gap-2 col-span-2 ">
                 <Label className="my-3" value="Birth Day" />
                 <Datepicker />
+              </div>
+              <div className="mx-2 col-span-2 md:col-span-1">
+                <Label className="my-3" value="Status" />
+                <Select>
+                  <option value="1">Active</option>
+                  <option value="2">Block</option>
+                </Select>
               </div>
             </div>
             <div className="flex justify-end mr-2 mt-4">

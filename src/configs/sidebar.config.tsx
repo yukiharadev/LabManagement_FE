@@ -1,4 +1,11 @@
-import { HiUser, HiHome, HiDesktopComputer, HiServer } from "react-icons/hi";
+import {
+  HiUser,
+  HiHome,
+  HiDesktopComputer,
+  HiServer,
+  HiChartBar,
+  HiColorSwatch,
+} from "react-icons/hi";
 
 const SidebarConfig = [
   {
@@ -27,6 +34,14 @@ const SidebarConfig = [
         title: "Lich sử",
         to: "/services/history",
       },
+      {
+        title: "Teacher Phòng -Check-",
+        to: "/services/demo-teacher-devices",
+      },
+      {
+        title: "More Lab OverTime",
+        to: "/services/more-lab-overtime",
+      },
     ],
   },
   {
@@ -36,8 +51,13 @@ const SidebarConfig = [
   },
   {
     title: "Quản Lý Phòng Lab",
-    icon: HiServer,
+    icon: HiColorSwatch,
     to: "/lab",
+  },
+  {
+    title: "Thống kê",
+    icon: HiChartBar,
+    to: "/statistics",
   },
 ];
 export default SidebarConfig;
