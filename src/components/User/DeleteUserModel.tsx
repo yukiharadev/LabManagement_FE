@@ -1,5 +1,5 @@
 import { Button, Modal } from "flowbite-react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { HiOutlineExclamationCircle, HiOutlineX } from "react-icons/hi";
 import { useState } from "react";
 
 const DeleteUserModel = () => {
@@ -9,12 +9,12 @@ const DeleteUserModel = () => {
   return (
     <>
       <Button
-        size={"xs"}
-        gradientMonochrome="failure"
-        className="ml-2 focus:outline-none focus:ring-0"
+        color={"failure"}
+        size="xs"
         onClick={handleModel}
+        className=" rounded-lg py-1 bg-red-100 text-red-500 hover:text-white "
       >
-        Delete
+        <HiOutlineX />
       </Button>
       <Modal show={isOpen} size="md" onClose={handleModel} popup>
         <Modal.Header />

@@ -8,8 +8,14 @@ import OrderRoom from "./Services/OrderRoom.tsx";
 import OrderDevice from "./Services/OrderDevice.tsx";
 import LabPage from "./LabPage.tsx";
 import StatisticsPage from "./StatisticsPage.tsx";
+import DemoOrderTeacher from "./Services/DemoOrderTeacher.tsx";
+import LabDetailsItem from "../components/Lab/LabDetailsItem.tsx";
+import LabOverTime from "./Services/LabOverTime.tsx";
 
 export {
+  DemoOrderTeacher,
+  LabDetailsItem,
+  LabOverTime,
   DevicesPage,
   HomePage,
   NotFoundPage,

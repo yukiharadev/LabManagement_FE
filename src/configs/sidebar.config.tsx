@@ -14,7 +14,7 @@ const SidebarConfig = [
     to: "/",
   },
   {
-    title: "Thiết bị",
+    title: "Quản Lý Thiết bị",
     icon: HiDesktopComputer,
     to: "/devices",
   },
@@ -23,24 +23,16 @@ const SidebarConfig = [
     icon: HiServer,
     subMenu: [
       {
-        title: "Đặt thiết bị",
+        title: "Mượn thiết bị",
         to: "/services/order-device",
       },
       {
-        title: "Đặt phòng Lab",
+        title: "Mượn phòng Lab",
         to: "/services/order-lab",
       },
       {
         title: "Lich sử",
         to: "/services/history",
-      },
-      {
-        title: "Teacher Phòng -Check-",
-        to: "/services/demo-teacher-devices",
-      },
-      {
-        title: "More Lab OverTime",
-        to: "/services/more-lab-overtime",
       },
     ],
   },

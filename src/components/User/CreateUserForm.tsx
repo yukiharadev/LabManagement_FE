@@ -6,10 +6,10 @@ import {
   Select,
   TextInput,
 } from "flowbite-react";
+import { HiCog, HiDownload, HiMail } from "react-icons/hi";
 import React, { useState } from "react";
-import { HiDownload, HiCog, HiMail, HiOutlinePencil } from "react-icons/hi";
 
-const EditUserDrawer = () => {
+const CreateUserForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,15 +22,10 @@ const EditUserDrawer = () => {
     console.log("Confirm Email:", email);
     handleClose();
   };
-
   return (
-    <div className="mr-2">
-      <Button
-        size="xs"
-        onClick={() => setIsOpen(true)}
-        className=" hover:text-white py-1 bg-cyan-100 text-cyan-500 "
-      >
-        <HiOutlinePencil />
+    <>
+      <Button size="xs" className="my-4" onClick={() => setIsOpen(true)}>
+        Add New
       </Button>
       <Drawer
         open={isOpen}
@@ -39,7 +34,7 @@ const EditUserDrawer = () => {
         position="right"
       >
         <Drawer.Header
-          title="Change User Information"
+          title="Create New User"
           titleIcon={() => <HiCog className="w-6 h-6 mr-2" />}
         />
         <Drawer.Items>
@@ -83,29 +78,32 @@ const EditUserDrawer = () => {
                 <Datepicker />
               </div>
               <div className="mx-2 col-span-2 md:col-span-1">
-                <Label className="my-3" value="Status" />
-                <Select>
-                  <option value="1">Active</option>
-                  <option value="2">Block</option>
-                </Select>
-              </div>
-              <div className="mx-2 col-span-2 md:col-span-1">
                 <Label className="my-3" value="Role" />
                 <Select>
                   <option value="1">Admin</option>
                   <option value="2">User</option>
                 </Select>
               </div>
-              <div className="mx-2 col-span-4 md:col-span-2">
-                <Label className="my-3" value="Reset Password" />
-                <TextInput
-                  type="ResetPassword"
-                  placeholder="ResetPassword"
-                  required
-                />
+
+              <div className="mx-2 col-span-2 md:col-span-1">
+                <Label className="my-3" value="Status" />
+                <Select>
+                  <option value="1">Active</option>
+                  <option value="2">Block</option>
+                </Select>
               </div>
             </div>
-
+            <div className="mx-2 col-span-2 md:col-span-1 ">
+              <Label className="my-3" value="Password" />
+              <TextInput
+                type="password"
+                rightIcon={HiMail}
+                placeholder="***********"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
             <div className="flex justify-end mr-2 mt-4">
               <Button
                 color="info"
@@ -118,8 +116,8 @@ const EditUserDrawer = () => {
           </form>
         </Drawer.Items>
       </Drawer>
-    </div>
+    </>
   );
 };
 
-export default EditUserDrawer;
+export default CreateUserForm;

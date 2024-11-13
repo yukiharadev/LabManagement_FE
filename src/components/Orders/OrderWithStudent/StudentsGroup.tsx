@@ -42,7 +42,7 @@ const StudentsGroup = () => {
   return (
     <div className="mt-2  sm:rounded-lg">
       <div className="flex justify-between ">
-        <Label className="flex items-center" value="Thiết bị" />
+        <Label className="flex items-center" value="Danh sách nhóm sinh viên" />
         <Button
           size="sm"
           className="ml-2 mb-2 focus:outline-none focus:ring-0"

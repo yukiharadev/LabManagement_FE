@@ -1,10 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Login = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = { username: userName, password };
+    try {
+      const response = await axios.post(
+        "http://localhost:5007/api/user/login",
+        form,
+      );
+      console.log(response);
+
+      localStorage.setItem("token", response.data.token);
+      await getUserInfo(response.data.username);
+
+      setIsLoggedIn(true);
+      toast.success("Login successful");
+    } catch (error) {
+      console.error(error);
+      toast.error("Login failed");
+    }
+    console.log(form);
+  };
+
+  const getUserInfo = async (userName: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5007/api/user/get/${userName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+      console.log(response);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -25,15 +76,20 @@ const Login = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Welcome back !!!
             </h1>
-            <form className="flex max-w-md flex-col gap-4">
+            <form
+              className="flex max-w-md flex-col gap-4"
+              onSubmit={handleSubmit}
+            >
               <div>
                 <div className="mb-2 block">
                   <Label htmlFor="email" value="Your email" />
                 </div>
                 <TextInput
-                  id="email"
-                  type="email"
-                  placeholder="name@flowbite.com"
+                  id="text"
+                  type="username"
+                  autoComplete="username"
+                  placeholder="yukihara"
+                  onChange={(e) => setUserName(e.target.value)}
                   required
                 />
               </div>
@@ -45,7 +101,9 @@ const Login = () => {
                   <TextInput
                     id="password"
                     type={showPassword ? "text" : "password"}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
+                    autoComplete="current-password"
                   />
                   <button
                     type="button"
@@ -65,17 +123,14 @@ const Login = () => {
                   <Checkbox id="remember" />
                   <Label htmlFor="remember">Remember me</Label>
                 </div>
-                <a
-                  href={""}
-                  className="text-sm text-blue-600 dark:text-gray-300"
-                >
+                <a href="" className="text-sm text-blue-600 dark:text-gray-300">
                   Forgot your password?
                 </a>
               </div>
               <Button type="submit">Login</Button>
             </form>
             <div className="flex items-center justify-center mt-3">
-              Don't have an account ?&nbsp;
+              Don't have an account?&nbsp;
               <Link
                 to="/auth/register"
                 className="text-blue-600 dark:text-blue-400"
