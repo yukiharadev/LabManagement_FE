@@ -1,20 +1,20 @@
-import { Button, Drawer, Label, Select, TextInput } from "flowbite-react";
+import { Button, Drawer, Label, Select, Textarea, TextInput } from "flowbite-react";
 import { HiCog } from "react-icons/hi";
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../../configs/axios.config.tsx";
+import { CREATE_DEVICE_ITEM_URL } from "../../configs/Api.config.tsx";
 
 interface props {
   id: number;
+  onItemCreated: () => void;
 }
 
 const CreateDeviceItem = (props: props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [deviceName, setDeviceName] = useState("");
-  const [deviceItemStatus, setDeviceItemStatus] = useState(1);
+  const [deviceItemStatus, setDeviceItemStatus] = useState(0);
   const [description, setDescription] = useState("");
-  const api = `http://localhost:5007/api/devices/${props.id}/add-device-item`;
-  console.log("api", api);
 
   const handleClose = () => setIsOpen(false);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,14 +24,12 @@ const CreateDeviceItem = (props: props) => {
       deviceItemStatus,
       description,
     };
-    const response = await axios.post(api, deviceData, {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await api.post(CREATE_DEVICE_ITEM_URL(props.id), deviceData);
     if (response.status === 200) {
+      console.log("onItemCreated", props.onItemCreated);
+      props.onItemCreated();
       toast.success("Thêm thiết bị thành công");
+
     } else {
       toast.error("Thêm thiết bị thất bại");
     }
@@ -68,22 +66,22 @@ const CreateDeviceItem = (props: props) => {
                 />
               </div>
               <div className="mx-2 col-span-2 md:col-span-1">
-                <Label className="my-3" value="Loại" />
+                <Label className="my-3" value="Tình trạng" />
                 <Select
                   value={deviceItemStatus}
                   onChange={(e) => setDeviceItemStatus(Number(e.target.value))}
                 >
+                  <option value={0}>Hỏng hóc</option>
                   <option value={1}>Đang hoạt động</option>
-                  <option value={2}>Hỏng hóc</option>
-                  <option value={3}>Đang được mượn</option>
+                  <option value={2}>Đang được mượn</option>
                 </Select>
               </div>
               <div className="mx-2 col-span-2">
                 <Label value="Mô tả" />
-                <TextInput
-                  type="text"
+                <Textarea
                   placeholder="Mô tả"
                   required
+                  rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />

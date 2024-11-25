@@ -1,13 +1,18 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Label, TextInput } from "flowbite-react";
+import { Badge, Button, Label, TextInput } from "flowbite-react";
 import CreateDeviceItem from "./CreateDeviceItem.tsx";
+import { HiOutlineX } from "react-icons/hi";
+import api from "../../configs/axios.config.tsx";
+import { DELETE_DEVICES_ITEM_URL, GET_DEVICE_BY_ID_URL } from "../../configs/Api.config.tsx";
+import UpdateItem from "./UpdateItem.tsx";
+import { toast } from "react-toastify";
 
 interface DeviceData {
   id: number;
   deviceName: string;
   total: number;
-  categoryId: number;
+  categoryName: string;
   deviceItems: {
     id: number;
     deviceItemId: number;
@@ -16,39 +21,45 @@ interface DeviceData {
     description: string;
   }[];
 }
-
 const DeviceDetailItem = () => {
   const { id } = useParams<{ id: string }>();
   const deviceId = Number(id);
 
   const [deviceData, setDeviceData] = useState<DeviceData | null>(null);
 
-  useEffect(() => {
-    const getDeviceData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5007/api/devices/get-by-id/${deviceId}`,
-        );
-        const data: DeviceData = await response.json();
-        setDeviceData(data);
-        console.log("data", data);
-      } catch (error) {
-        console.error("Error:", error);
+  const fetchDeviceData = async () => {
+    try {
+      const response = await api.get(GET_DEVICE_BY_ID_URL(deviceId));
+      const data: DeviceData = response.data;
+      setDeviceData(data);
+    } catch (error) {
+      console.error("Error fetching device data:", error);
+    }
+  };
+
+  const removeItem = async (deviceItemId: number) => {
+    try {
+      const response = await api.delete(DELETE_DEVICES_ITEM_URL(deviceId, deviceItemId));
+      if (response.status === 204) {
+        fetchDeviceData();
+        toast.success("Xóa thiết bị thành công");
       }
-    };
-    getDeviceData();
+    } catch (error) {
+      console.error("Error deleting device item:", error);
+      toast.error("Xóa thiết bị thất bại");
+    }
+  };
+
+  useEffect(() => {
+    fetchDeviceData();
   }, [deviceId]);
 
   return (
     <div className="grid grid-cols-4 gap-4">
+
       <div className="col-span-1">
-        <Label>id</Label>
-        <TextInput
-          type="text"
-          value={deviceData?.id?.toString() || ""}
-          disabled
-          readOnly
-        />
+        <Label>Id</Label>
+        <TextInput type="text" value={deviceData?.id?.toString() || ""} disabled readOnly />
       </div>
       <div className="col-span-1">
         <Label>Tên thiết bị</Label>
@@ -56,57 +67,57 @@ const DeviceDetailItem = () => {
       </div>
       <div className="col-span-1">
         <Label>Tổng</Label>
-        <TextInput
-          type="text"
-          value={deviceData?.total?.toString() || ""}
-          disabled
-        />
+        <TextInput type="text" value={deviceData?.total?.toString() || ""} disabled />
       </div>
       <div className="col-span-1">
         <Label>Loại thiết bị</Label>
-        <TextInput
-          type="text"
-          value={deviceData?.categoryId?.toString() || ""}
-          disabled
-        />
+        <TextInput type="text" value={deviceData?.categoryName || ""} disabled />
       </div>
+
+      {/* Chi tiết thiết bị */}
       <div className="col-span-4">
         <div className="flex mb-1 justify-between">
           <Label>Chi tiết thiết bị</Label>
-          <CreateDeviceItem id={deviceId} />
+          <CreateDeviceItem id={deviceId} onItemCreated={fetchDeviceData} />
         </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-2 py-3">
-                Tên thiết bị
-              </th>
-              <th scope="col" className="px-2 py-3">
-                Số lượng
-              </th>
-              <th scope="col" className="px-2 py-3">
-                Trạng thái
-              </th>
+              <th className="px-2 py-3">Tên thiết bị</th>
+              <th className="px-2 py-3">Trạng thái</th>
+              <th className="px-2 py-3">Ghi chú</th>
+              <th className="px-2 py-3">Hành động</th>
             </tr>
           </thead>
           <tbody>
             {deviceData?.deviceItems.map((item) => (
               <tr
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 key={item.deviceItemId}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                <td className="px-2 py-4 whitespace-nowrap">
-                  {item.deviceItemName}
+                <td className="px-2 py-4">{item.deviceItemName}</td>
+                <td className="px-2 py-4">
+                  <div className="flex">
+                    {item.deviceItemStatus === 1 ? (
+                      <Badge color="success">Đang hoạt động</Badge>
+                    ) : item.deviceItemStatus === 0 ? (
+                      <Badge color="failure">Đã hỏng</Badge>
+                    ) : (
+                      <Badge color="warning">Đang được mượn</Badge>
+                    )}
+                  </div>
                 </td>
-                <td className="px-2 py-4 whitespace-nowrap">
-                  {item.deviceItemStatus === 1
-                    ? "Đang hoạt động"
-                    : item.deviceItemStatus === 2
-                      ? "Hỏng hóc"
-                      : "Đang được mượn"}
-                </td>
-                <td className="px-2 py-4 whitespace-nowrap">
-                  {item.description}
+                <td className="px-2 py-4">{item.description}</td>
+                <td className="flex px-2 py-4 space-x-2">
+                  <UpdateItem id={deviceId} data={item} onItemCreated={fetchDeviceData} deviceItemId={item.deviceItemId} />
+                  <Button
+                    color="failure"
+                    size="xs"
+                    onClick={() => removeItem(item.deviceItemId)}
+                    className="rounded-lg py-1 bg-red-100 text-red-500 hover:text-white"
+                  >
+                    <HiOutlineX />
+                  </Button>
                 </td>
               </tr>
             ))}
