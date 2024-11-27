@@ -3,9 +3,7 @@ import { Button } from "flowbite-react";
 interface Student {
   data: {
     studentName: string;
-    studentId: string;
-    studentPhoneNumber: string;
-    teacherId: string;
+    lectureName: string;
   };
 }
 
@@ -18,10 +16,8 @@ const StudentItemGroup = (props: Student) => {
       >
         {props.data.studentName}
       </th>
-      <td className="py-1 px-2">{props.data.studentId}</td>
-      <td className=" py-1 px-2">{props.data.studentPhoneNumber}</td>
       <td>
-        <div className="py-1 px-2 ">{props.data.teacherId}</div>
+        <div className="py-1 px-2 ">{props.data.lectureName}</div>
       </td>
       <td>
         <div className=" flex gap-2">

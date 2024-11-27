@@ -1,6 +1,11 @@
 import LabItems from "./LabItem.tsx";
 
+
+
+
 const LabTable = () => {
+
+
   const labData = [
     {
       id: 1,

@@ -8,7 +8,6 @@ import OrderRoom from "./Services/OrderRoom.tsx";
 import OrderDevice from "./Services/OrderDevice.tsx";
 import LabPage from "./LabPage.tsx";
 import StatisticsPage from "./StatisticsPage.tsx";
-import DemoOrderTeacher from "./Services/DemoOrderTeacher.tsx";
 import LabDetailsItem from "../components/Lab/LabDetailsItem.tsx";
 import DeviceHistory from "./History/DeviceHistory.tsx";
 import LabHistory from "./History/LabHistory.tsx";
@@ -16,7 +15,6 @@ import LabHistory from "./History/LabHistory.tsx";
 export {
     LabHistory,
     DeviceHistory,
-    DemoOrderTeacher,
     LabDetailsItem,
     DevicesPage,
     HomePage,

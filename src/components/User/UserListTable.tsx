@@ -25,17 +25,17 @@ const UserListTable = () => {
 
     const navigator = useNavigate();
 
+    const getUserList = async () => {
+        try {
+            const response = await api.get(GET_ALL_USERS)
+            const data = await response.data;
+            setUserList(data);
+        } catch (error) {
+            navigator("/forbidden");
+            toast.error("Error");
+        }
+    };
     useEffect(() => {
-        const getUserList = async () => {
-            try {
-                const response = await api.get(GET_ALL_USERS)
-                const data = await response.data;
-                setUserList(data);
-            } catch (error) {
-                navigator("/forbidden");
-                toast.error("Error");
-            }
-        };
         getUserList();
     }, []);
 
@@ -64,7 +64,7 @@ const UserListTable = () => {
                     {" "}
                     Thông tin người dùng{" "}
                 </span>
-                <CreateUserForm />
+                <CreateUserForm onCreated={getUserList} />
             </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

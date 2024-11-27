@@ -1,5 +1,9 @@
 import axios from "axios";
-import {API_URL} from "./Api.config";
+import { API_URL } from "./Api.config";
+// import { useNavigate } from "react-router-dom";
+
+
+// const navigate = useNavigate();
 
 const api = axios.create({
     baseURL: API_URL,
@@ -19,6 +23,7 @@ api.interceptors.request.use(
         return config;
     },
     (error) => {
+
         return Promise.reject(error);
     }
 );

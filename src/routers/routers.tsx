@@ -19,6 +19,7 @@ import {
 } from "../pages/page.tsx";
 import DeviceDetailItem from "../components/Devices/DeviceDetailItem.tsx";
 import Forbidden from "../pages/Error/Forbidden.tsx";
+import DeviceManagement from "../pages/Device/DeviceManagement.tsx";
 
 const router = createBrowserRouter(
     [
@@ -59,7 +60,7 @@ const router = createBrowserRouter(
                         },
                         {
                             path: "user-booking",
-                            element: <div>aaa</div>
+                            element: <DeviceManagement />,
                         }
                     ],
 

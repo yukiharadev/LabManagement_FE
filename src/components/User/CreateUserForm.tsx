@@ -6,22 +6,59 @@ import {
   Select,
   TextInput,
 } from "flowbite-react";
-import { HiCog, HiDownload, HiMail } from "react-icons/hi";
+import { HiClock, HiCog, HiDownload, HiMail } from "react-icons/hi";
 import React, { useState } from "react";
+import api from "../../configs/axios.config";
+import { CREATE_USER_BY_ADMIN } from "../../configs/Api.config";
+import { toast } from "react-toastify";
 
-const CreateUserForm = () => {
+interface CreateUserFormProps {
+
+  onCreated: () => Promise<void>;
+
+}
+
+const CreateUserForm = (props: CreateUserFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [role, setRole] = useState("admin");
+  const [gender, setGender] = useState("1");
+  const [birthDay, setBirthDay] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleClose = () => setIsOpen(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("full name:", fullName);
-    console.log("Confirm Email:", email);
+
+    const userData = {
+      username: userName,
+      fullName,
+      avatar: "DEFAULT",
+      email,
+      password,
+      role,
+      gender,
+      dateOfBirth: birthDay,
+    };
+
+    try {
+
+      const response = await api.post(CREATE_USER_BY_ADMIN, userData);
+      if (response.status === 200) {
+        toast.success("User created successfully");
+      }
+      props.onCreated();
+
+    } catch (error) {
+      console.log("Error:", error);
+
+    }
     handleClose();
   };
+
   return (
     <>
       <Button size="xs" className="my-4" onClick={() => setIsOpen(true)}>
@@ -51,19 +88,30 @@ const CreateUserForm = () => {
               </label>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 ">
-              <div className="mx-2 col-span-2 md:col-span-1 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
                 <Label value="Full Name" />
                 <TextInput
-                  type="type"
+                  type="text"
                   placeholder="Full Name"
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
-              <div className="mx-2 col-span-2 md:col-span-1 ">
-                <Label className="my-3" value="Email" />
+              <div>
+                <Label value="User Name" />
+                <TextInput
+                  type="text"
+                  rightIcon={HiClock}
+                  placeholder="Yukihara"
+                  required
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </div>
+              <div>
+                <Label value="Email" />
                 <TextInput
                   type="email"
                   rightIcon={HiMail}
@@ -73,43 +121,48 @@ const CreateUserForm = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="mx-2 gap-2 col-span-2 ">
-                <Label className="my-3" value="Birth Day" />
-                <Datepicker />
+              <div>
+                <Label value="Birth Day" />
+                <Datepicker
+                  onChange={(date) =>
+                    setBirthDay(date ? date.toISOString().split("T")[0] : "")
+                  }
+                />
               </div>
-              <div className="mx-2 col-span-2 md:col-span-1">
-                <Label className="my-3" value="Role" />
-                <Select>
-                  <option value="1">Admin</option>
-                  <option value="2">User</option>
+              <div>
+                <Label value="Role" />
+                <Select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                >
+                  <option value="admin">Admin</option>
+                  <option value="student">Student</option>
+                  <option value="lecturer">Lecturer</option>
                 </Select>
               </div>
-
-              <div className="mx-2 col-span-2 md:col-span-1">
-                <Label className="my-3" value="Status" />
-                <Select>
-                  <option value="1">Active</option>
-                  <option value="2">Block</option>
+              <div>
+                <Label value="Giới tính" />
+                <Select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option value="Male">Nam</option>
+                  <option value="Female">Nữ</option>
                 </Select>
               </div>
+              <div>
+                <Label value="Password" />
+                <TextInput
+                  type="password"
+                  placeholder="***********"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="mx-2 col-span-2 md:col-span-1 ">
-              <Label className="my-3" value="Password" />
-              <TextInput
-                type="password"
-                rightIcon={HiMail}
-                placeholder="***********"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="flex justify-end mr-2 mt-4">
-              <Button
-                color="info"
-                className="ml-2 focus:outline-none focus:ring-0"
-                type="submit"
-              >
+            <div className="flex justify-end mt-6">
+              <Button color="info" type="submit">
                 Save
               </Button>
             </div>

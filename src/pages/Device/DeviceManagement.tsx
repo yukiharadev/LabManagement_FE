@@ -1,25 +1,21 @@
-import { Badge, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiEye, HiOutlineX } from "react-icons/hi";
 import api from "../../configs/axios.config";
-import { GET_HISTORY_DEVICE_URL } from "../../configs/Api.config";
+import { GET_BOOKING_DEVICE_URL } from "../../configs/Api.config";
+import { Badge, Button } from "flowbite-react";
+import { HiEye, HiOutlineX } from "react-icons/hi";
 
-
-const DeviceHistory = () => {
+const DeviceManagement = () => {
     const [bookingDevices, setBookingDevices] = useState([]);
-    const username = localStorage.getItem("username") || "";
+
     useEffect(() => {
         const bookingDevice = async () => {
-            const response = await api.get(GET_HISTORY_DEVICE_URL(username));
+            const response = await api.get(GET_BOOKING_DEVICE_URL);
             if (response.status === 200) {
                 setBookingDevices(response.data);
             }
         }
-        if (username) {
-            bookingDevice();
-        } else {
-            console.error("Username is null");
-        }
+        bookingDevice();
+
     }, []);
 
     console.log("bookingDevices", bookingDevices);
@@ -29,7 +25,7 @@ const DeviceHistory = () => {
     return (
         <div className="mt-2 sm:rounded-lg">
             <div className="my-2 flex justify-between">
-                <h1 className="text-2xl">Lịch sử đơn mượn</h1>
+                <h1 className="text-2xl">Danh sách đơn mượn</h1>
             </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -91,6 +87,6 @@ const DeviceHistory = () => {
             </table>
         </div>
     );
-};
+}
 
-export default DeviceHistory;
+export default DeviceManagement;

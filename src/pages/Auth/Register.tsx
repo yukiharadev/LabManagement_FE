@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import {
     Button,
     Checkbox,
@@ -8,10 +8,10 @@ import {
     Select,
     TextInput,
 } from "flowbite-react";
-import {HiEye, HiEyeOff} from "react-icons/hi";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 import axios from "axios";
-import {toast} from "react-toastify";
-import {useNavigate} from "react-router-dom";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -112,7 +112,7 @@ const Register = () => {
 
                             <div>
                                 <div className="mb-2 block">
-                                    <Label htmlFor="name" value="Full Name"/>
+                                    <Label htmlFor="name" value="Full Name" />
                                 </div>
                                 <TextInput
                                     id="full_name"
@@ -125,7 +125,7 @@ const Register = () => {
 
                             <div>
                                 <div className="mb-2 block">
-                                    <Label htmlFor="birth_day" value="BirthDay"/>
+                                    <Label htmlFor="birth_day" value="BirthDay" />
                                 </div>
                                 <Datepicker
                                     onChange={(date) =>
@@ -133,20 +133,20 @@ const Register = () => {
                                     }
                                 />
                                 <div className="mb-2 block">
-                                    <Label htmlFor="gender" value="Gender"/>
+                                    <Label htmlFor="gender" value="Gender" />
                                 </div>
                                 <Select
                                     value={gender}
                                     onChange={(e) => setGender(e.target.value)}
                                 >
-                                    <option value="Nam">Nam</option>
-                                    <option value="Nữ">Nữ</option>
+                                    <option value="Male">Nam</option>
+                                    <option value="Female">Nữ</option>
                                 </Select>
                             </div>
 
                             <div>
                                 <div className="mb-2 block">
-                                    <Label htmlFor="UserName" value="Username"/>
+                                    <Label htmlFor="UserName" value="Username" />
                                 </div>
                                 <TextInput
                                     id="username"
@@ -160,7 +160,7 @@ const Register = () => {
 
                             <div>
                                 <div className="mb-2 block">
-                                    <Label htmlFor="email" value="Your email"/>
+                                    <Label htmlFor="email" value="Your email" />
                                 </div>
                                 <TextInput
                                     id="email"
@@ -174,7 +174,7 @@ const Register = () => {
 
                             <div>
                                 <div className="mb-2 block">
-                                    <Label htmlFor="password" value="Your password"/>
+                                    <Label htmlFor="password" value="Your password" />
                                 </div>
                                 <div className="relative">
                                     <TextInput
@@ -190,9 +190,9 @@ const Register = () => {
                                         onClick={() => setShowPassword(!showPassword)}
                                     >
                                         {!showPassword ? (
-                                            <HiEyeOff className="text-gray-400"/>
+                                            <HiEyeOff className="text-gray-400" />
                                         ) : (
-                                            <HiEye className="text-gray-600"/>
+                                            <HiEye className="text-gray-600" />
                                         )}
                                     </button>
                                 </div>
@@ -200,7 +200,7 @@ const Register = () => {
 
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-2">
-                                    <Checkbox id="remember"/>
+                                    <Checkbox id="remember" />
                                     <Label htmlFor="remember">Remember me</Label>
                                 </div>
                                 <a href="" className="text-sm text-blue-600 dark:text-gray-300">
