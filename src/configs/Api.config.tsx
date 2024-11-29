@@ -23,11 +23,30 @@ const CREATE_USER_BY_ADMIN = `/user/admin-register`;
 //BOOKING
 const BOOKING_DEVICE_URL = `/DeviceBorrowing/create`;
 const GET_HISTORY_DEVICE_URL = (username: string) => `/DeviceBorrowing/history/${username}`;
-
+const ACCEPT_BOOKING_DEVICE_URL = (id: number) => `/DeviceBorrowing/${id}/approve`;
 const GET_CATEGORY_URL = `/devices/categories`;
 const BOOKING_LAB_URL = `/LabBorrowingRequests`;
+const REJECT_BOOKING_DEVICE_URL = (id: number) => `/DeviceBorrowing/${id}/reject`;
+const REMOVE_BOOKING_DEVICE_URL = (id: number) => `/DeviceBorrowing/${id}`;
+const GET_BOOKING_DEVICE_BY_ID_URL = (id: string | undefined) => `/DeviceBorrowing/${id}`;
+
+//LAB
+const GET_LAB_URL = `/LabBorrowingRequests`;
+const GET_LAB_BY_ID_URL = (id: string | undefined) => `/LabBorrowingRequests/${id}`;
+const APPROVE_LAB_URL = (id: number ) => `/LabBorrowingRequests/approve/${id}`;
+const LAB_HISTORY_URL = (username: string) => `/LabBorrowingRequests/history/${username}`;
+
+
+//SERVER
+const SERVER_BOOKING = "Server";
+const GET_SERVER_BOOKING =  `/Server`;
+const APPROVE_SERVER_BOOKING = (id: number) => `/Server/approve/${id}`;
+const DELETE_SERVER_BOOKING = (id: number) => `/Server/${id}`;
+const GET_SERVER_DETAIL_URL = (id: string | undefined) => `/Server/${id}`;
+const GET_SERVER_HISTORY_URL = (username: string) => `/Server/history?username=${username}`;
 
 export {
+    GET_SERVER_HISTORY_URL,
     API_URL,
     GET_ALL_DEVICES_URL,
     LOGIN_URL,
@@ -40,10 +59,23 @@ export {
     APPROVE_USER,
     DELETE_USER,
     BOOKING_DEVICE_URL,
+    REJECT_BOOKING_DEVICE_URL,
     GET_CATEGORY_URL,
     UPDATE_DEVICE_ITEM_URL,
     GET_BOOKING_DEVICE_URL,
     CREATE_USER_BY_ADMIN,
     GET_HISTORY_DEVICE_URL,
-    BOOKING_LAB_URL
+    GET_BOOKING_DEVICE_BY_ID_URL,
+    BOOKING_LAB_URL,
+    ACCEPT_BOOKING_DEVICE_URL,
+    GET_LAB_URL,
+    GET_LAB_BY_ID_URL,
+    APPROVE_LAB_URL,
+    LAB_HISTORY_URL,
+    REMOVE_BOOKING_DEVICE_URL,
+    SERVER_BOOKING,
+    GET_SERVER_BOOKING,
+    APPROVE_SERVER_BOOKING,
+    DELETE_SERVER_BOOKING,
+    GET_SERVER_DETAIL_URL
 };

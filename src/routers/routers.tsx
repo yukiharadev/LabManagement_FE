@@ -13,13 +13,15 @@ import {
     NotFoundPage,
     OrderDevice,
     OrderRoom,
-    Register,
-    StatisticsPage,
+    Register, ServerBooking, ServerPage,
     UserPage,
 } from "../pages/page.tsx";
 import DeviceDetailItem from "../components/Devices/DeviceDetailItem.tsx";
 import Forbidden from "../pages/Error/Forbidden.tsx";
 import DeviceManagement from "../pages/Device/DeviceManagement.tsx";
+import BookingDeviceDetail from "../pages/History/BookingDeviceDetail.tsx";
+import ServerDetail from "../pages/Server/ServerDetail.tsx";
+import ServerHistory from "../pages/History/ServerHistory.tsx";
 
 const router = createBrowserRouter(
     [
@@ -80,7 +82,15 @@ const router = createBrowserRouter(
                             path: "lab",
                             element: <LabHistory />,
                         },
+                        {
+                            path: "server",
+                            element: <ServerHistory />,
+                        }
                     ]
+                },
+                {
+                  path: "device-booking/:id",
+                    element: <BookingDeviceDetail />
                 },
                 {
                     path: "lab",
@@ -95,6 +105,14 @@ const router = createBrowserRouter(
                     element: <UserPage />,
                 },
                 {
+                  path: "server",
+                    element: <ServerPage />,
+                },
+                {
+                    path: "server/:id",
+                    element: <ServerDetail />,
+                },
+                {
                     path: "services",
                     children: [
                         {
@@ -105,12 +123,12 @@ const router = createBrowserRouter(
                             path: "order-lab",
                             element: <OrderRoom />,
                         },
+                        {
+                            path: "book-server",
+                            element: <ServerBooking />,
+                        }
                     ],
-                },
-                {
-                    path: "statistics",
-                    element: <StatisticsPage />,
-                },
+                }
             ],
         },
         {

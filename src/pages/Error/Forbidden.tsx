@@ -13,9 +13,9 @@ const Forbidden = () => {
                     </p>
                     <p className="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
                         Sorry, we can't find that page. You'll find lots to explore on the
-                        <Link className="text-blue-700" to={"/"}>
+                        <Link className="text-blue-700 font-bold" to={"/"}>
                             {" "}
-                            homepage
+                            HOME PAGE
                         </Link>
                         .
                     </p>

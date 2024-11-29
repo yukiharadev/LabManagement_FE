@@ -1,48 +1,43 @@
 import LabItems from "./LabItem.tsx";
+import {useEffect, useState} from "react";
+import api from "../../configs/axios.config.tsx";
+import {GET_LAB_URL} from "../../configs/Api.config.tsx";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
-
+interface LabData {
+    id: number;
+    username: string;
+    startDate: string;
+    endDate: string;
+    status: number;
+}
 
 
 const LabTable = () => {
+  const [labData, setLabData] = useState<LabData[]>([]);
+  const navigation = useNavigate();
+
+  const getLabData = async () => {
+    try {
+      const response = await api.get(GET_LAB_URL);
+      if (response.status === 200) {
+        setLabData(response.data);
+      }
+    }
+    catch (error) {
+      console.error("Error", error);
+      toast.error("Forbidden Error");
+      navigation("/forbidden");
+    }
+  }
 
 
-  const labData = [
-    {
-      id: 1,
-      borrower: "Yukihara",
-      role: "Teacher",
-      status: "Processing",
-      dateRange: "30/10/2024 - 1/11/2024",
-    },
-    {
-      id: 2,
-      borrower: "Yukihara",
-      role: "Teacher",
-      status: "Processing",
-      dateRange: "30/10/2024 - 1/11/2024",
-    },
-    {
-      id: 3,
-      borrower: "Yukihara",
-      role: "Teacher",
-      status: "Processing",
-      dateRange: "30/10/2024 - 1/11/2024",
-    },
-    {
-      id: 4,
-      borrower: "Yukihara",
-      role: "Teacher",
-      status: "Processing",
-      dateRange: "30/10/2024 - 1/11/2024",
-    },
-    {
-      id: 5,
-      borrower: "Yukihara",
-      role: "Student",
-      status: "Processing",
-      dateRange: "30/10/2024 - 1/11/2024",
-    },
-  ];
+  useEffect(() => {
+
+
+    getLabData();
+  }, []);
 
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
@@ -70,16 +65,19 @@ const LabTable = () => {
           </tr>
         </thead>
         <tbody>
-          {labData.map((item) => (
-            <LabItems
-              key={item.id}
-              id={item.id}
-              borrower={item.borrower}
-              role={item.role}
-              status={item.status}
-              dateRange={item.dateRange}
-            />
-          ))}
+          {labData.length>0?labData.map((item) => (
+              <LabItems
+                  key={item.id}
+                  id={item.id}
+                  username={item.username}
+                  startDate={item.startDate}
+                  endDate={item.endDate}
+                  status={item.status}
+                  onApprove = {getLabData}
+              />
+          )): <tr>
+            <td colSpan={6} className="text-center py-4">No data</td>
+            </tr>}
         </tbody>
       </table>
     </div>

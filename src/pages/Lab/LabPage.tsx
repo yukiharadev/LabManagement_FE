@@ -1,4 +1,4 @@
-import LabTable from "../components/Lab/LabTable.tsx";
+import LabTable from "../../components/Lab/LabTable.tsx";
 
 const LabPage = () => {
   return (

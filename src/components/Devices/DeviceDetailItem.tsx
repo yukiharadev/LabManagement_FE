@@ -27,6 +27,9 @@ const DeviceDetailItem = () => {
 
   const [deviceData, setDeviceData] = useState<DeviceData | null>(null);
 
+  const userData = localStorage.getItem("userdata");
+  console.log(userData);
+
   const fetchDeviceData = async () => {
     try {
       const response = await api.get(GET_DEVICE_BY_ID_URL(deviceId));
@@ -73,12 +76,13 @@ const DeviceDetailItem = () => {
         <Label>Loại thiết bị</Label>
         <TextInput type="text" value={deviceData?.categoryName || ""} disabled />
       </div>
-
-      {/* Chi tiết thiết bị */}
+      
       <div className="col-span-4">
         <div className="flex mb-1 justify-between">
           <Label>Chi tiết thiết bị</Label>
-          <CreateDeviceItem id={deviceId} onItemCreated={fetchDeviceData} />
+          { userData && JSON.parse(userData).roles.includes("admin") ?
+              <CreateDeviceItem id={deviceId} onItemCreated={fetchDeviceData} />: null
+          }
         </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -86,7 +90,10 @@ const DeviceDetailItem = () => {
               <th className="px-2 py-3">Tên thiết bị</th>
               <th className="px-2 py-3">Trạng thái</th>
               <th className="px-2 py-3">Ghi chú</th>
-              <th className="px-2 py-3">Hành động</th>
+              {
+                userData && JSON.parse(userData).roles.includes("admin") ?
+                <th className="px-2 py-3">Hành động</th>: null
+              }
             </tr>
           </thead>
           <tbody>
@@ -108,17 +115,21 @@ const DeviceDetailItem = () => {
                   </div>
                 </td>
                 <td className="px-2 py-4">{item.description}</td>
-                <td className="flex px-2 py-4 space-x-2">
-                  <UpdateItem id={deviceId} data={item} onItemCreated={fetchDeviceData} deviceItemId={item.deviceItemId} />
-                  <Button
-                    color="failure"
-                    size="xs"
-                    onClick={() => removeItem(item.deviceItemId)}
-                    className="rounded-lg py-1 bg-red-100 text-red-500 hover:text-white"
-                  >
-                    <HiOutlineX />
-                  </Button>
-                </td>
+                {
+                    userData && JSON.parse(userData).roles.includes("admin") ?
+                        <td className="flex px-2 py-4 space-x-2">
+                          <UpdateItem id={deviceId} data={item} onItemCreated={fetchDeviceData}
+                                      deviceItemId={item.deviceItemId}/>
+                          <Button
+                              color="failure"
+                              size="xs"
+                              onClick={() => removeItem(item.deviceItemId)}
+                              className="rounded-lg py-1 bg-red-100 text-red-500 hover:text-white"
+                          >
+                            <HiOutlineX/>
+                          </Button>
+                        </td> : null
+                }
               </tr>
             ))}
           </tbody>

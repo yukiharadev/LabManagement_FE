@@ -13,6 +13,7 @@ import { DELETE_DEVICE_URL } from "../../configs/Api.config.tsx";
 const DevicesTable = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const userData = localStorage.getItem("userdata");
     const { data: devices, error } = useSelector(
         (state: RootState) => state.device,
     );
@@ -45,7 +46,9 @@ const DevicesTable = () => {
         <div className="mt-2 sm:rounded-lg">
             <div className="my-2 flex justify-between">
                 <h1 className="text-2xl">Danh sách thiết bị</h1>
-                <CreateDevice />
+                {
+                    userData && JSON.parse(userData).roles.includes("admin")  ?(<CreateDevice />): ""
+                }
             </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -86,14 +89,17 @@ const DevicesTable = () => {
                                     >
                                         <HiEye />
                                     </Button>
-                                    <Button
-                                        color={"failure"}
-                                        size="xs"
-                                        onClick={() => handleDelete(device.id)}
-                                        className=" rounded-lg py-1 bg-red-100 text-red-500 hover:text-white "
-                                    >
-                                        <HiOutlineX />
-                                    </Button>
+                                    {
+                                        userData && JSON.parse(userData).role === "admin" ? (
+                                            <Button
+                                                onClick={() => handleDelete(device.id)}
+                                                size="xs"
+                                                className=" hover:text-white mx-2 py-1 bg-red-100 text-red-500 "
+                                            >
+                                                <HiOutlineX />
+                                            </Button>
+                                        ) : ""
+                                    }
                                 </td>
                             </tr>
                         ))

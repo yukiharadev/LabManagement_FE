@@ -1,4 +1,4 @@
-import DevicesTable from "../components/Devices/DevicesTable.tsx";
+import DevicesTable from "../../components/Devices/DevicesTable.tsx";
 
 const DevicesPage = () => {
   return (

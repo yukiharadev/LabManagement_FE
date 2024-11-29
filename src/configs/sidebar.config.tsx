@@ -3,6 +3,7 @@ import {
     HiHome,
     HiDesktopComputer,
     HiServer,
+    HiShoppingCart,
     HiChartBar,
     HiColorSwatch,
 } from "react-icons/hi";
@@ -40,11 +41,15 @@ const SidebarConfig = [
                 title: "Lịch sử mượn phòng Lab",
                 to: "/history/lab",
             },
+            {
+                title: "Lịch sử đăng ký Server",
+                to: "/history/server",
+            }
         ],
     },
     {
         title: "Dịch vụ",
-        icon: HiServer,
+        icon: HiShoppingCart,
         roles: ["admin", "student", 'lecturer'],
         subMenu: [
             {
@@ -54,13 +59,12 @@ const SidebarConfig = [
             {
                 title: "Mượn phòng Lab",
                 to: "/services/order-lab",
+            },
+            {
+                title: "Đăng ký tài khoản Server",
+                to: "/services/book-server",
             }
         ],
-    },
-    {
-        title: "Quản Lý Người dùng",
-        icon: HiUser,
-        to: "/users",
     },
     {
         title: "Quản Lý Phòng Lab",
@@ -69,9 +73,14 @@ const SidebarConfig = [
         to: "/lab",
     },
     {
-        title: "Thống kê",
-        icon: HiChartBar,
-        to: "/statistics",
+        title: "Quản Lý Server",
+        icon: HiServer,
+        to: "/server",
+    },
+    {
+        title: "Quản Lý Người dùng",
+        icon: HiUser,
+        to: "/users",
     },
 ];
 export default SidebarConfig;

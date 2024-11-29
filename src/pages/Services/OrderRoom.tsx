@@ -51,15 +51,17 @@ const OrderRoom: React.FC = () => {
         }));
     };
 
-    // Xử lý gửi đơn
     const LabSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Form Data:", formData);
-        const response = await api.post(BOOKING_LAB_URL, formData);
-        console.log("Response:", response);
-
-        if (response.status === 200) {
-            toast.success("Đã gửi đơn thành công");
+        try {
+            const response = await api.post(BOOKING_LAB_URL, formData);
+            if (response.status === 201) {
+                toast.success("Đặt phòng thành công");
+            }
+        }
+        catch (error) {
+            toast.error("Đặt phòng thất bại");
         }
     };
 
@@ -69,6 +71,7 @@ const OrderRoom: React.FC = () => {
             <hr className="my-4" />
             <div className="grid grid-cols-4 gap-4">
                 <div className=" col-span-2">
+                    <Label className="mr-2">Start Date</Label>
                     <DatePicker
                         selected={startDate}
                         className="rounded-lg border border-gray-300"
@@ -80,6 +83,7 @@ const OrderRoom: React.FC = () => {
                     />
                 </div>
                 <div className="col-span-2">
+                    <Label className="mr-2">Ngày kết thúc</Label>
                     <DatePicker
                         selected={endDate}
                         className="rounded-lg border border-gray-300"
@@ -92,6 +96,7 @@ const OrderRoom: React.FC = () => {
                 </div>
             </div>
             <hr className="my-2" />
+            <Label>Ghi chú</Label>
             <Textarea
                 id="comment"
                 placeholder="Leave a comment..."
@@ -102,7 +107,7 @@ const OrderRoom: React.FC = () => {
             />
             <DevicesTableOrder onChange={handleDevicesChange} />
             <div className="flex items-center my-2">
-                <Checkbox id="agree" required />
+                <Checkbox id="agree" required defaultChecked={true} />
                 <Label className="ml-2" htmlFor="agree">
                     Tôi đồng ý với điều khoản và điều kiện
                 </Label>
